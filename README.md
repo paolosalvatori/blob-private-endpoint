@@ -121,6 +121,8 @@ az storage fs file list \
     --account-name $storageAccountName
 ```
 
+## Testing ##
+
 if you open an ssh session to the Linux virtual machine and manually run the nslookup command, you should see an output like the following:
 
 ![Architecture](images/nslookup.png)
