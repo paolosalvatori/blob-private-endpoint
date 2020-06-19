@@ -164,7 +164,8 @@ if [[ -n $assignmentIds ]]; then
             az role assignment delete --ids $assignmentId
 
             if [[ $? == 0 ]]; then
-                echo "[$assignmentId] role assignment successfully deleted"
+                assignmentName=$(echo $assignmentId | awk -F '/' '{print $NF}')
+                echo "[$assignmentName] role assignment successfully deleted"
             fi
         fi
     done

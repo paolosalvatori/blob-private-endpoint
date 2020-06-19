@@ -36,7 +36,7 @@
         "description": "Unique DNS Name for the Storage Account where the Virtual Machine's disks will be placed."
       }
     },
-    "storageAccountType": {
+    "storageAccountSku": {
       "type": "string",
       "defaultValue": "Premium_LRS",
       "allowedValues": [
@@ -123,6 +123,23 @@
       "type": "securestring",
       "metadata": {
         "description": "SSH Key or password for the Virtual Machine. SSH key is recommended."
+      }
+    },
+    "diskStorageAccounType": {
+      "type": "string",
+      "defaultValue": "Premium_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Standard_ZRS",
+        "Premium_LRS",
+        "Premium_ZRS",
+        "Standard_GZRS",
+        "Standard_RAGZRS"
+      ],
+      "metadata": {
+        "description": "Defines the storage account type for OS and data disk."
       }
     },
     "numDataDisks": {
@@ -226,14 +243,14 @@
     },
     "fileName": {
       "type": "string",
-      "defaultValue": "greeting.txt",
+      "defaultValue": "greeting.json",
       "metadata": {
         "description": "The name of the file to create in the directory."
       }
     },
     "fileContent": {
       "type": "string",
-      "defaultValue": "Hello World",
+      "defaultValue": "{\"greeting\": \"Hello World\"}",
       "metadata": {
         "description": "The content of the file to create in the directory."
       }
@@ -270,6 +287,7 @@
     "privateDnsZoneId": "[resourceId('Microsoft.Network/privateDnsZones', variables('privateDnsZoneName'))]",
     "privateEndpointId": "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpointName'))]",
     "privateEndpointGroupId": "blob",
+    "roleAssignmentId": "[resourceId('Microsoft.Authorization/roleAssignments', parameters('roleAssignmentGuid'))]",
     "contributorRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', parameters('builtInRoleType'))]",
     "customScriptId": "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('vmName'), 'CustomScript')]",
     "omsAgentForLinuxId": "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('vmName'), 'LogAnalytics')]"
@@ -283,10 +301,7 @@
       "sku": {
         "name": "Standard_LRS"
       },
-      "kind": "StorageV2",
-      "properties": {
-        "accountType": "[parameters('storageAccountType')]"
-      }
+      "kind": "StorageV2"
     },
     {
       "apiVersion": "2020-04-01",
@@ -425,7 +440,7 @@
             "caching": "ReadWrite",
             "createOption": "FromImage",
             "managedDisk": {
-              "storageAccountType": "[parameters('storageAccountType')]"
+              "storageAccountType": "[parameters('diskStorageAccounType')]"
             }
           },
           "copy": [
@@ -439,7 +454,7 @@
                 "name": "[concat(parameters('vmName'),'-DataDisk',copyIndex('dataDisks'))]",
                 "createOption": "Empty",
                 "managedDisk": {
-                  "storageAccountType": "[parameters('storageAccountType')]"
+                  "storageAccountType": "[parameters('diskStorageAccounType')]"
                 }
               }
             }
@@ -466,12 +481,13 @@
       "name": "[concat(parameters('vmName'), '/CustomScript')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[variables('vmId')]"
+        "[variables('vmId')]",
+        "[variables('roleAssignmentId')]"
       ],
       "properties": {
         "publisher": "Microsoft.Azure.Extensions",
         "type": "CustomScript",
-        "typeHandlerVersion": "2.0",
+        "typeHandlerVersion": "2.1",
         "autoUpgradeMinorVersion": true,
         "settings": {
           "skipDos2Unix": false,
@@ -499,7 +515,7 @@
       "properties": {
         "publisher": "Microsoft.EnterpriseCloud.Monitoring",
         "type": "OmsAgentForLinux",
-        "typeHandlerVersion": "1.12",
+        "typeHandlerVersion": "1.9",
         "settings": {
           "workspaceId": "[reference(variables('workspaceId'), '2020-03-01-preview').customerId]",
           "stopOnMultipleConnections": false
@@ -524,7 +540,7 @@
       "properties": {
         "publisher": "Microsoft.Azure.Monitoring.DependencyAgent",
         "type": "DependencyAgentLinux",
-        "typeHandlerVersion": "9.10",
+        "typeHandlerVersion": "9.4",
         "autoUpgradeMinorVersion": true
       }
     },
