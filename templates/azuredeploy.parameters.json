@@ -1,0 +1,87 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualNetworkName": {
+      "value": "TestVnet"
+    },
+    "virtualNetworkAddressPrefix": {
+      "value": "10.0.0.0/16"
+    },
+    "subnetName": {
+      "value": "DefaultSubnet"
+    },
+    "subnetAddressPrefix": {
+      "value": "10.0.0.0/24"
+    },
+    "storageAccountName": {
+      "value": "fufos"
+    },
+    "storageAccountType": {
+      "value": "Premium_LRS"
+    },
+    "vmName": {
+      "value": "TestVm"
+    },
+    "vmSize": {
+      "value": "Standard_F4s_v2"
+    },
+    "imagePublisher": {
+      "value": "Canonical"
+    },
+    "imageOffer": {
+      "value": "UbuntuServer"
+    },
+    "imageSku": {
+      "value": "18.04-LTS"
+    },
+    "authenticationType": {
+      "value": "password"
+    },
+    "adminUsername": {
+      "value": "azadmin"
+    },
+    "adminPasswordOrKey": {
+      "value": "Trustno1"
+    },
+    "numDataDisks": {
+      "value": 1
+    },
+    "dataDiskSize": {
+      "value": 10
+    },
+    "dataDiskCaching": {
+      "value": "ReadWrite"
+    },
+    "scriptFilePath": {
+      "value": "https://babo.blob.core.windows.net/scripts"
+    },
+    "scriptFileName": {
+      "value": "create-file-in-blob-storage.sh"
+    },
+    "deployLogAnalytics": {
+      "value": true
+    },
+    "workspaceName": {
+      "value": "StoragePrivateLinkTestWorkspace"
+    },
+    "workspaceSku": {
+      "value": "Standard"
+    },
+    "privateEndpointName": {
+      "value": "StorageAccountPrivateEndpoint"
+    },
+    "fileSystemName": {
+      "value": "testfs"
+    },
+    "directoryName": {
+      "value": "documents"
+    },
+    "fileName": {
+      "value": "greeting.json"
+    },
+    "fileContent": {
+      "value": "{\"greeting\": \"Hello World\"}"
+    }
+  }
+}
