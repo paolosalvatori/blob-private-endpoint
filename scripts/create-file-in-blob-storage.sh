@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Variables
-storageAccountName=$1
+blobServicePrimaryEndpoint=$1
 fileSystemName=$2
 directoryName=$3
 fileName=$4
 fileContent=$5
 
 # Parameter validation
-if [[ -z storageAccountName ]]; then
-    echo "storageAccountName parameter cannot be null or empty"
+if [[ -z blobServicePrimaryEndpoint ]]; then
+    echo "blobServicePrimaryEndpoint cannot be null or empty"
     exit 1
 fi
 
@@ -33,6 +33,14 @@ if [[ -z fileContent ]]; then
     exit 1
 fi
 
+# Extract the storage name from the blob service primary endpoint
+storageAccountName=$(echo "$blobServicePrimaryEndpoint" | awk -F'.' '{print $1}')
+
+if [[ -z storageAccountName ]]; then
+    echo "storageAccountName cannot be null or empty"
+    exit 1
+fi
+
 # Update the system
 sudo apt-get update -y
 
@@ -48,7 +56,7 @@ curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 # Run nslookup to verify that the <storage-account>.blob.core.windows.net public hostname of the storage account 
 # is properly mapped to <storage-account>.privatelink.blob.core.windows.net by the private DNS zone
 # and the latter mapped to the private address by the A record
-nslookup "$storageAccountName.blob.core.windows.net"
+nslookup $blobServicePrimaryEndpoint
 
 # Login using the virtual machine system-assigned managed identity
 az login --identity

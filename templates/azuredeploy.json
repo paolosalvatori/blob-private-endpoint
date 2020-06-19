@@ -264,7 +264,8 @@
       },
       "provisionVMAgent": true
     },
-    "publicDNSZoneForwarder": ".blob.core.windows.net",
+    "publicDNSZoneForwarder": "[concat('.blob.', environment().suffixes.storage)]",
+    "blobServicePrimaryEndpoint": "[concat(parameters('storageAccountName'), variables('publicDNSZoneForwarder'))]",
     "privateDnsZoneName": "[concat('privatelink', variables('publicDNSZoneForwarder'))]",
     "privateDnsZoneId": "[resourceId('Microsoft.Network/privateDnsZones', variables('privateDnsZoneName'))]",
     "privateEndpointId": "[resourceId('Microsoft.Network/privateEndpoints', parameters('privateEndpointName'))]",
@@ -480,7 +481,7 @@
           ]
         },
         "protectedSettings": {
-          "commandToExecute": "[concat('bash ',  parameters('scriptFileName'), ' ', parameters('storageAccountName'), ' ', parameters('fileSystemName'), ' ', parameters('directoryName'), ' ', parameters('fileName'), ' ', parameters('fileContent'))]"
+          "commandToExecute": "[concat('bash ',  parameters('scriptFileName'), ' ', variables('blobServicePrimaryEndpoint'), ' ', parameters('fileSystemName'), ' ', parameters('directoryName'), ' ', parameters('fileName'), ' ', parameters('fileContent'))]"
         }
       }
     },
