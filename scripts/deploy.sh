@@ -141,11 +141,6 @@ deployTemplate() {
             --parameters $arguments 1>/dev/null
     fi
 
-     az deployment group create \
-        --resource-group $resourceGroupName \
-        --template-file $template \
-        --parameters $parameters 1>/dev/null
-
     if [[ $? == 0 ]]; then
         echo "[$template$] ARM template successfully provisioned"
     else
@@ -156,6 +151,26 @@ deployTemplate() {
 
 # Create Resource Group
 createResourceGroup "$resourceGroupName" "$location"
+
+# Delete any existing role assignments in case you are re-deploying the solution in an existing resource group
+assignmentIds=$(az role assignment list \
+    --scope "/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}" \
+    --query [].id \
+    --output tsv)
+
+if [[ -n $assignmentIds ]]; then
+    for assignmentId in ${assignmentIds[@]}; do
+        if [[ -n assignmentId ]]; then
+            az role assignment delete --ids $assignmentId
+
+            if [[ $? == 0 ]]; then
+                echo "[$assignmentId] role assignment successfully deleted"
+            fi
+        fi
+    done
+else
+    echo "No role assignments exist at the [$resourceGroupName] resource group scope level"
+fi
 
 # Deploy JMeter Test Harness
 deployTemplate \

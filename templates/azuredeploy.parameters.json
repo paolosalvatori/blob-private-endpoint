@@ -78,10 +78,10 @@
       "value": "documents"
     },
     "fileName": {
-      "value": "greeting.json"
+      "value": "greeting.txt"
     },
     "fileContent": {
-      "value": "{\"greeting\": \"Hello World\"}"
+      "value": "Hello World"
     }
   }
 }

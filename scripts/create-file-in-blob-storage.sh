@@ -8,37 +8,49 @@ fileName=$4
 fileContent=$5
 
 # Parameter validation
-if [[ -z blobServicePrimaryEndpoint ]]; then
+if [[ -z $blobServicePrimaryEndpoint ]]; then
     echo "blobServicePrimaryEndpoint cannot be null or empty"
     exit 1
+else
+    echo "blobServicePrimaryEndpoint: $blobServicePrimaryEndpoint"
 fi
 
-if [[ -z fileSystemName ]]; then
+if [[ -z $fileSystemName ]]; then
     echo "fileSystemName parameter cannot be null or empty"
     exit 1
+else
+    echo "fileSystemName: $fileSystemName"
 fi
 
-if [[ -z directoryName ]]; then
+if [[ -z $directoryName ]]; then
     echo "directoryName parameter cannot be null or empty"
     exit 1
+else
+    echo "directoryName: $directoryName"
 fi
 
-if [[ -z fileName ]]; then
+if [[ -z $fileName ]]; then
     echo "fileName parameter cannot be null or empty"
     exit 1
+else
+    echo "fileName: $fileName"
 fi
 
-if [[ -z fileContent ]]; then
+if [[ -z $fileContent ]]; then
     echo "fileContent parameter cannot be null or empty"
     exit 1
+else
+    echo "fileContent: $fileContent"
 fi
 
 # Extract the storage name from the blob service primary endpoint
 storageAccountName=$(echo "$blobServicePrimaryEndpoint" | awk -F'.' '{print $1}')
 
-if [[ -z storageAccountName ]]; then
+if [[ -z $storageAccountName ]]; then
     echo "storageAccountName cannot be null or empty"
     exit 1
+else
+    echo "storageAccountName: $storageAccountName"
 fi
 
 # Update the system

@@ -226,14 +226,14 @@
     },
     "fileName": {
       "type": "string",
-      "defaultValue": "greeting.json",
+      "defaultValue": "greeting.txt",
       "metadata": {
         "description": "The name of the file to create in the directory."
       }
     },
     "fileContent": {
       "type": "string",
-      "defaultValue": "{\"greeting\": \"Hello World\"}",
+      "defaultValue": "Hello World",
       "metadata": {
         "description": "The content of the file to create in the directory."
       }
@@ -471,7 +471,7 @@
       "properties": {
         "publisher": "Microsoft.Azure.Extensions",
         "type": "CustomScript",
-        "typeHandlerVersion": "2.1",
+        "typeHandlerVersion": "2.0",
         "autoUpgradeMinorVersion": true,
         "settings": {
           "skipDos2Unix": false,
@@ -499,7 +499,7 @@
       "properties": {
         "publisher": "Microsoft.EnterpriseCloud.Monitoring",
         "type": "OmsAgentForLinux",
-        "typeHandlerVersion": "1.9",
+        "typeHandlerVersion": "1.12",
         "settings": {
           "workspaceId": "[reference(variables('workspaceId'), '2020-03-01-preview').customerId]",
           "stopOnMultipleConnections": false
@@ -524,7 +524,7 @@
       "properties": {
         "publisher": "Microsoft.Azure.Monitoring.DependencyAgent",
         "type": "DependencyAgentLinux",
-        "typeHandlerVersion": "9.4",
+        "typeHandlerVersion": "9.10",
         "autoUpgradeMinorVersion": true
       }
     },
