@@ -42,7 +42,7 @@
       "value": "azadmin"
     },
     "adminPasswordOrKey": {
-      "value": "Trustno1"
+      "value": "Passw0rd!"
     },
     "numDataDisks": {
       "value": 1
@@ -54,7 +54,7 @@
       "value": "ReadWrite"
     },
     "scriptFilePath": {
-      "value": "https://babo.blob.core.windows.net/scripts"
+      "value": "https://paolosalvatori.blob.core.windows.net/scripts"
     },
     "scriptFileName": {
       "value": "create-file-in-blob-storage.sh"
