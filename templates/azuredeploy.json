@@ -299,9 +299,9 @@
     "blobPrivateDnsZoneName": "[concat('privatelink', variables('blobPublicDNSZoneForwarder'))]",
     "adlsPrivateDnsZoneId": "[resourceId('Microsoft.Network/privateDnsZones', variables('adlsPrivateDnsZoneName'))]",
     "blobPrivateDnsZoneId": "[resourceId('Microsoft.Network/privateDnsZones', variables('blobPrivateDnsZoneName'))]",
-    "dataServicePrimaryEndpoint": "[concat(parameters('adlsStorageAccountName'), variables('adlsPublicDNSZoneForwarder'))]",
+    "adlsServicePrimaryEndpoint": "[concat(parameters('adlsStorageAccountName'), variables('adlsPublicDNSZoneForwarder'))]",
     "blobServicePrimaryEndpoint": "[concat(parameters('blobStorageAccountName'), variables('blobPublicDNSZoneForwarder'))]",
-    "dataStorageAccountPrivateEndpointId": "[resourceId('Microsoft.Network/privateEndpoints', parameters('adlsStorageAccountPrivateEndpointName'))]",
+    "adlsStorageAccountPrivateEndpointId": "[resourceId('Microsoft.Network/privateEndpoints', parameters('adlsStorageAccountPrivateEndpointName'))]",
     "blobStorageAccountPrivateEndpointId": "[resourceId('Microsoft.Network/privateEndpoints', parameters('blobStorageAccountPrivateEndpointName'))]",
     "adlsStorageAccountPrivateEndpointGroupId": "dfs",
     "blobStorageAccountPrivateEndpointGroupId": "blob"
@@ -439,7 +439,7 @@
         "type": "SystemAssigned"
       },
       "dependsOn": [
-        "[variables('dataStorageAccountPrivateEndpointId')]",
+        "[variables('adlsStorageAccountPrivateEndpointId')]",
         "[variables('blobStorageAccountPrivateEndpointId')]",
         "[variables('nicId')]"
       ],
@@ -523,7 +523,7 @@
           ]
         },
         "protectedSettings": {
-          "commandToExecute": "[concat('bash ',  parameters('scriptFileName'), ' ', variables('dataServicePrimaryEndpoint'), ' ', variables('blobServicePrimaryEndpoint'), ' ', parameters('fileSystemName'), ' ', parameters('directoryName'), ' ', parameters('fileName'), ' ', parameters('fileContent'))]"
+          "commandToExecute": "[concat('bash ',  parameters('scriptFileName'), ' ', variables('adlsServicePrimaryEndpoint'), ' ', variables('blobServicePrimaryEndpoint'), ' ', parameters('fileSystemName'), ' ', parameters('directoryName'), ' ', parameters('fileName'), ' ', parameters('fileContent'))]"
         }
       }
     },
@@ -930,13 +930,13 @@
       "name": "[concat(variables('adlsPrivateDnsZoneName'), '/', parameters('adlsStorageAccountName'))]",
       "dependsOn": [
         "[variables('adlsPrivateDnsZoneId')]",
-        "[variables('dataStorageAccountPrivateEndpointId')]"
+        "[variables('adlsStorageAccountPrivateEndpointId')]"
       ],
       "properties": {
         "ttl": 3600,
         "aRecords": [
           {
-            "ipv4Address": "[reference(variables('dataStorageAccountPrivateEndpointId'), '2020-04-01').customDnsConfigs[0].ipAddresses[0]]"
+            "ipv4Address": "[reference(variables('adlsStorageAccountPrivateEndpointId'), '2020-04-01').customDnsConfigs[0].ipAddresses[0]]"
           }
         ]
       }
