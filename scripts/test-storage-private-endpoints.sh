@@ -1,13 +1,21 @@
 #!/bin/bash
 
 # Variables
-blobServicePrimaryEndpoint=$1
-fileSystemName=$2
-directoryName=$3
-fileName=$4
-fileContent=$5
+adlsServicePrimaryEndpoint=$1
+blobServicePrimaryEndpoint=$2
+fileSystemName=$3
+directoryName=$4
+fileName=$5
+fileContent=$6
 
 # Parameter validation
+if [[ -z $adlsServicePrimaryEndpoint ]]; then
+    echo "adlsServicePrimaryEndpoint cannot be null or empty"
+    exit 1
+else
+    echo "adlsServicePrimaryEndpoint: $adlsServicePrimaryEndpoint"
+fi
+
 if [[ -z $blobServicePrimaryEndpoint ]]; then
     echo "blobServicePrimaryEndpoint cannot be null or empty"
     exit 1
@@ -43,8 +51,8 @@ else
     echo "fileContent: $fileContent"
 fi
 
-# Extract the storage name from the blob service primary endpoint
-storageAccountName=$(echo "$blobServicePrimaryEndpoint" | awk -F'.' '{print $1}')
+# Extract the adls storage account name from the adls service primary endpoint
+storageAccountName=$(echo "$adlsServicePrimaryEndpoint" | awk -F'.' '{print $1}')
 
 if [[ -z $storageAccountName ]]; then
     echo "storageAccountName cannot be null or empty"
@@ -52,6 +60,9 @@ if [[ -z $storageAccountName ]]; then
 else
     echo "storageAccountName: $storageAccountName"
 fi
+
+# Eliminate debconf: warnings
+echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 # Update the system
 sudo apt-get update -y
@@ -65,9 +76,14 @@ sudo apt install -y curl traceroute
 # Install Azure CLI
 curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
+# Run nslookup to verify that the <storage-account>.dfs.core.windows.net public hostname of the storage account 
+# is properly mapped to <storage-account>.privatelink.dfs.core.windows.net by the privatelink.dfs.core.windows.net 
+# private DNS zone and the latter is resolved to the private address by the A record
+nslookup $adlsServicePrimaryEndpoint
+
 # Run nslookup to verify that the <storage-account>.blob.core.windows.net public hostname of the storage account 
-# is properly mapped to <storage-account>.privatelink.blob.core.windows.net by the private DNS zone
-# and the latter mapped to the private address by the A record
+# is properly mapped to <storage-account>.privatelink.blob.core.windows.net by the privatelink.blob.core.windows.net 
+# private DNS zone and the latter is resolved to the private address by the A record
 nslookup $blobServicePrimaryEndpoint
 
 # Login using the virtual machine system-assigned managed identity

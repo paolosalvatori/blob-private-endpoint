@@ -14,12 +14,6 @@
     "subnetAddressPrefix": {
       "value": "10.0.0.0/24"
     },
-    "storageAccountName": {
-      "value": "youraccountstorage"
-    },
-    "storageAccountSku": {
-      "value": "Premium_LRS"
-    },
     "vmName": {
       "value": "TestVm"
     },
@@ -50,17 +44,20 @@
     "numDataDisks": {
       "value": 1
     },
+    "osDiskSize": {
+      "value": 50
+    },
     "dataDiskSize": {
-      "value": 10
+      "value": 50
     },
     "dataDiskCaching": {
       "value": "ReadWrite"
     },
     "scriptFilePath": {
-      "value": "https://paolosalvatori.blob.core.windows.net/scripts"
+      "value": "https://raw.githubusercontent.com/paolosalvatori/blob-private-endpoint/master/scripts"
     },
     "scriptFileName": {
-      "value": "create-file-in-blob-storage.sh"
+      "value": "test-storage-private-endpoints.sh"
     },
     "deployLogAnalytics": {
       "value": true
@@ -71,8 +68,11 @@
     "workspaceSku": {
       "value": "Standard"
     },
-    "privateEndpointName": {
-      "value": "StorageAccountPrivateEndpoint"
+    "adlsStorageAccountPrivateEndpointName": {
+      "value": "AdlsStorageAccountPrivateEndpoint"
+    },
+    "blobStorageAccountPrivateEndpointName": {
+      "value": "BlobStorageAccountPrivateEndpoint"
     },
     "fileSystemName": {
       "value": "testfs"
