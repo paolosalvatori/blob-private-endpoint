@@ -23,8 +23,8 @@ The ARM template deploys the following resources:
 - A Log Analytics workspace used to monitor the health status of the Linux virtual machine
 - An Azure Data Lake Storage (ADLS) Gen 2 storage account used to store data on the Azure Data Lake File System
 - An Azure Data Lake Storage (ADLS) Gen 2 storage account used to store the boot diagnostics logs of the virtual machine as blobs
-- A Private DNS Zone for Azure Data Lake File System Gen2 (privatelink.dfs.core.windows.net)
-- A Private DNS Zone Blob Storage Accounts (privatelink.blob.core.windows.net)
+- A Private DNS Zone for ADLS Gen2 private endpoints (privatelink.dfs.core.windows.net)
+- A Private DNS Zone for Blob Storage Accounts private endpoints (privatelink.blob.core.windows.net)
 - A Private Endpoint to let the virtual machine access the Azure Data Lake File System via a private address
 - A Private Endpoint to let the virtual machine store boot diagnostics logs to the second storage account via a private address
 
