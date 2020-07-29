@@ -32,8 +32,8 @@ The ARM template deploys the following resources:
 
 The [PrivateDnsZoneGroups](https://docs.microsoft.com/en-us/azure/templates/microsoft.network/privateendpoints/privateDnsZoneGroups) resource type establish a relationship between the Private Endpoint and the Private the DNS zone:
 
-- When creating the Private Endpoint DNS A record, the A record will automatically be provisioned in the target Private DNS Zone with the private IP address of the network interface associated to the Private Endpoint and the name of the Azure resource referenced by the Private Endpoint
-- Upon Private Endpoint deletion, the A record gets automatically deleted from the corresponding Private DNS Zone.
+- When creating a Private Endpoint, the related A record will automatically be created in the target Private DNS Zone with the private IP address of the network interface associated to the Private Endpoint and the name of the Azure resource referenced by the Private Endpoint
+- When deleting a Private Endpoint, the related A record gets automatically deleted from the corresponding Private DNS Zone.
 
 The two storage accounts are accessed via a different endpoint, hence their private endpoints need different private DNS zone:
 
