@@ -223,7 +223,7 @@
     "builtInRoleType": {
       "type": "string",
       "defaultValue": "b24988ac-6180-42a0-ab88-20f7382dd24c",
-       "metadata": {
+      "metadata": {
         "description": "Specifies the name of the built-in role to assign to the virtual machine system managed identity."
       }
     },
@@ -337,7 +337,7 @@
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
-           "domainNameLabel": "[concat(toLower(parameters('vmName')), uniquestring(resourceGroup().id))]"
+          "domainNameLabel": "[concat(toLower(parameters('vmName')), uniquestring(resourceGroup().id))]"
         }
       }
     },
@@ -1020,7 +1020,7 @@
         ]
       }
     },
-        {
+    {
       "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
       "apiVersion": "2020-03-01",
       "name": "[variables('adlsPrivateDnsZoneGroup')]",
