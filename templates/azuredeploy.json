@@ -303,10 +303,10 @@
     "blobServicePrimaryEndpoint": "[concat(parameters('blobStorageAccountName'), variables('blobPublicDNSZoneForwarder'))]",
     "adlsStorageAccountPrivateEndpointId": "[resourceId('Microsoft.Network/privateEndpoints', parameters('adlsStorageAccountPrivateEndpointName'))]",
     "blobStorageAccountPrivateEndpointId": "[resourceId('Microsoft.Network/privateEndpoints', parameters('blobStorageAccountPrivateEndpointName'))]",
-    "adlsStorageAccountPrivateEndpointGroupId": "dfs",
-    "blobStorageAccountPrivateEndpointGroupId": "blob",
-    "adlsPrivateDnsZoneGroup": "[concat(parameters('adlsStorageAccountPrivateEndpointName'),'/', variables('adlsStorageAccountPrivateEndpointGroupId'), 'PrivateDnsZoneGroup')]",
-    "blobPrivateDnsZoneGroup": "[concat(parameters('blobStorageAccountPrivateEndpointName'),'/', variables('blobStorageAccountPrivateEndpointGroupId'), 'PrivateDnsZoneGroup')]"
+    "adlsStorageAccountPrivateEndpointGroupName": "dfs",
+    "blobStorageAccountPrivateEndpointGroupName": "blob",
+    "adlsPrivateDnsZoneGroup": "[concat(parameters('adlsStorageAccountPrivateEndpointName'),'/', variables('adlsStorageAccountPrivateEndpointGroupName'), 'PrivateDnsZoneGroup')]",
+    "blobPrivateDnsZoneGroup": "[concat(parameters('blobStorageAccountPrivateEndpointName'),'/', variables('blobStorageAccountPrivateEndpointGroupName'), 'PrivateDnsZoneGroup')]"
   },
   "resources": [
     {
@@ -974,7 +974,7 @@
             "properties": {
               "privateLinkServiceId": "[variables('adlsStorageAccountId')]",
               "groupIds": [
-                "[variables('adlsStorageAccountPrivateEndpointGroupId')]"
+                "[variables('adlsStorageAccountPrivateEndpointGroupName')]"
               ]
             }
           }
@@ -1005,7 +1005,7 @@
             "properties": {
               "privateLinkServiceId": "[variables('blobStorageAccountId')]",
               "groupIds": [
-                "[variables('blobStorageAccountPrivateEndpointGroupId')]"
+                "[variables('blobStorageAccountPrivateEndpointGroupName')]"
               ]
             }
           }
